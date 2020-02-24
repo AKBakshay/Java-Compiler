@@ -77,6 +77,7 @@ def p_IntegralType(p):
                     | long
                     | char '''
     p[0] = Node('IntegralType', p[1:])
+    
 
 def p_FloatingPointType(p):
     '''FloatingPointType : float
@@ -620,7 +621,7 @@ def p_Primary(p):
 
 def p_PrimaryNoNewArray(p):
     '''PrimaryNoNewArray  : Literal
-                          | 'this'
+                          | this
                           | '(' Expression ')'
                           | ClassInstanceCreationExpression
                           | FieldAccess
@@ -628,18 +629,18 @@ def p_PrimaryNoNewArray(p):
                           | ArrayAccess'''
 
 def p_ClassInstanceCreationExpression(p):
-    '''ClassInstanceCreationExpression : 'new' ClassType '('  ')' 
-                                       : 'new' ClassType '(' ArgumentList ')' '''
+    '''ClassInstanceCreationExpression : new ClassType '('  ')' 
+                                       : new ClassType '(' ArgumentList ')' '''
 
 def p_ArgumentList(p):
     '''ArgumentList : Expression
                     | ArgumentList ',' Expression'''
 
 def p_ArrayCreationExpression(p):
-    '''ArrayCreationExpression  : 'new' PrimitiveType DimExprs 
-                                | 'new' PrimitiveType DimExprs Dims
-                                | 'new' ClassOrInterfaceType DimExprs 
-                                | 'new' ClassOrInterfaceType DimExprs Dims '''
+    '''ArrayCreationExpression  : new PrimitiveType DimExprs 
+                                | new PrimitiveType DimExprs Dims
+                                | new ClassOrInterfaceType DimExprs 
+                                | new ClassOrInterfaceType DimExprs Dims '''
 
 
 def p_DimExprs(p):
@@ -655,15 +656,15 @@ def p_Dims(p):
 
 def p_FieldAccess(p):
     '''FieldAccess : Primary '.' Identifier
-                   | 'super' '.' Identifier '''
+                   | super '.' Identifier '''
 
 def p_MethodInvocation(p):
     '''MethodInvocation : Name '('  ')'
                         |  Name '(' ArgumentList ')'
                         | Primary '.' Identifier '('  ')'
                         | Primary '.' Identifier '(' ArgumentList ')'
-                        | 'super' '.' Identifier '('  ')' 
-                        | 'super' '.' Identifier '(' ArgumentList ')' '''
+                        | super '.' Identifier '('  ')' 
+                        | super '.' Identifier '(' ArgumentList ')' '''
 
 def p_ArrayAccess(p):
     '''ArrayAccess : Name '[' Expression ']'
@@ -677,11 +678,11 @@ def p_PostfixExpression(p):
                          | PostDecrementExpression'''
 
 def p_PostIncrementExpression(p):
-    '''PostIncrementExpression : PostfixExpression '++' '''
+    '''PostIncrementExpression : PostfixExpression PLUSPLUS '''
 
 
 def p_PostDecrementExpression(p):
-    '''PostDecrementExpression : PostfixExpression '--' '''
+    '''PostDecrementExpression : PostfixExpression MINUSMINUS '''
 
 def p_UnaryExpression(p):
     '''UnaryExpression  : PreIncrementExpression
@@ -691,10 +692,10 @@ def p_UnaryExpression(p):
                         | UnaryExpressionNotPlusMinus '''
 
 def p_PreIncrementExpression(p):
-    '''PreIncrementExpression : '++' UnaryExpression'''
+    '''PreIncrementExpression : PLUSPLUS UnaryExpression'''
 
 def p_PreDecrementExpression(p):
-    '''PreDecrementExpression : '--' UnaryExpression'''
+    '''PreDecrementExpression : MINUSMINUS UnaryExpression'''
 
 def p_UnaryExpressionNotPlusMinus(p):
     '''UnaryExpressionNotPlusMinus  : PostfixExpression
@@ -721,22 +722,22 @@ def p_AdditiveExpression(p):
 
 def p_ShiftExpression(p):
     '''ShiftExpression  : AdditiveExpression
-                        | ShiftExpression '<<' AdditiveExpression
-                        | ShiftExpression '>>' AdditiveExpression
-                        | ShiftExpression '>>>' AdditiveExpression'''
+                        | ShiftExpression LSHIFT AdditiveExpression
+                        | ShiftExpression RSHIFT AdditiveExpression
+                        | ShiftExpression RRSHIFT AdditiveExpression'''
 
 def p_RelationalExpression(p):
     '''RelationalExpression : ShiftExpression
                             | RelationalExpression '<' ShiftExpression
                             | RelationalExpression '>' ShiftExpression
-                            | RelationalExpression '<=' ShiftExpression
-                            | RelationalExpression '>=' ShiftExpression
-                            | RelationalExpression 'instanceof' ReferenceType'''
+                            | RelationalExpression LTEQ ShiftExpression
+                            | RelationalExpression GTEQ ShiftExpression
+                            | RelationalExpression instanceof ReferenceType'''
 
 def p_EqualityExpression(p):
     '''EqualityExpression   : RelationalExpression
-                            | EqualityExpression '==' RelationalExpression
-                            | EqualityExpression '!=' RelationalExpression'''
+                            | EqualityExpression EQ RelationalExpression
+                            | EqualityExpression NEQ RelationalExpression'''
 
 def p_AndExpression(p):
     '''AndExpression : EqualityExpression
@@ -752,11 +753,11 @@ def p_InclusiveOrExpression(p):
 
 def p_ConditionalAndExpression(p):
     '''ConditionalAndExpression : InclusiveOrExpression
-                                | ConditionalAndExpression '&&' InclusiveOrExpression'''
+                                | ConditionalAndExpression AND InclusiveOrExpression'''
 
 def p_ConditionalOrExpression(p):
     '''ConditionalOrExpression  : ConditionalAndExpression
-                                | ConditionalOrExpression '||' ConditionalAndExpression'''
+                                | ConditionalOrExpression OR ConditionalAndExpression'''
 
 def p_ConditionalExpression(p):
     '''ConditionalExpression : ConditionalOrExpression
@@ -775,18 +776,19 @@ def p_LeftHandSide(p):
                     | ArrayAccess'''
 
 def p_AssignmentOperator(p):
-    '''AssignmentOperator  : '='
-                           | '*='
-                           | '/=' 
-                           | '%=' 
-                           | '+=' 
-                           | '-=' 
-                           | '<<='
-                           | '>>='
-                           | '>>>='
-                           | '&='
-                           | '^=' 
-                           | '|=' '''
+    '''AssignmentOperator : '='
+                            | TIMES_EQUAL
+                            | DIVIDE_EQUAL
+                            | REMAINDER_EQUAL
+                            | PLUS_EQUAL
+                            | MINUS_EQUAL
+                            | LSHIFT_EQUAL
+                            | RSHIFT_EQUAL
+                            | RRSHIFT_EQUAL
+                            | AND_EQUAL
+                            | XOR_EQUAL
+                            | OR_EQUAL'''
+    p[0] = Node('AssignmentOperator', p[1:])
 
 def p_Expression(p):
     '''Expression : AssignmentExpression'''
