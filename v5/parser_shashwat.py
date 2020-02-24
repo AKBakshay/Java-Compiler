@@ -157,10 +157,10 @@ def p_ImportDeclaration(p):
                          | TypeImportOnDemandDeclaration'''
 
 def p_SingleTypeImportDeclaration(p):
-    '''SingleTypeImportDeclaration : IMPORT Name ';' '''
+    '''SingleTypeImportDeclaration : import Name ';' '''
     
 def p_TypeImportOnDemandDeclaration(p):
-    '''TypeImportOnDemandDeclaration : IMPORT Name '.' '*' ';' '''
+    '''TypeImportOnDemandDeclaration : import Name '.' '*' ';' '''
     
 def p_TypeDeclaration(p):
     '''TypeDeclaration : ClassDeclaration
@@ -172,34 +172,34 @@ def p_Modifiers(p):
                  | Modifiers Modifier'''
 
 def p_Modifier(p):
-    '''Modifier : PUBLIC
-                | PROTECTED 
-                | PRIVATE
-                | STATIC
-                | ABSTRACT 
-                | FINAL 
-                | NATIVE 
-                | SYNCHRONIZED 
-                | TRANSIENT 
-                | VOLATILE'''
+    '''Modifier : public
+                | protected 
+                | private
+                | static
+                | abstract 
+                | final 
+                | native 
+                | synchronized 
+                | transient 
+                | volatile'''
 
 
 
 def p_ClassDeclaration(p):
-    '''ClassDeclaration : Modifiers CLASS Identifier Super Interfaces ClassBody
-                        | Modifiers CLASS Identifier Super ClassBody
-                        | Modifiers CLASS Identifier Interfaces ClassBody
-                        | CLASS Identifier Super Interfaces ClassBody
-                        | Modifiers CLASS Identifier ClassBody
-                        | CLASS Identifier Interfaces ClassBody
-                        | CLASS Identifier Super ClassBody
-                        | CLASS Identifier ClassBody '''
+    '''ClassDeclaration : Modifiers class Identifier Super Interfaces ClassBody
+                        | Modifiers class Identifier Super ClassBody
+                        | Modifiers class Identifier Interfaces ClassBody
+                        | class Identifier Super Interfaces ClassBody
+                        | Modifiers class Identifier ClassBody
+                        | class Identifier Interfaces ClassBody
+                        | class Identifier Super ClassBody
+                        | class Identifier ClassBody '''
 
 def p_Super(p):
-    '''Super : EXTENDS ClassType'''
+    '''Super : extends ClassType'''
 
 def p_Interfaces(p):
-    '''Interfaces : IMPLEMENTS InterfaceTypeList'''
+    '''Interfaces : implements InterfaceTypeList'''
 
 def p_InterfaceTypeList(p):
     '''InterfaceTypeList : InterfaceType
@@ -271,7 +271,7 @@ def p_FormalParameter(p):
     '''FormalParameter : Type VariableDeclaratorId'''
 
 def p_Throws(p):
-    '''Throws : THROWS ClassTypeList'''
+    '''Throws : throws ClassTypeList'''
 
 def p_ClassTypeList(p):
     '''ClassTypeList : ClassType
@@ -284,7 +284,7 @@ def p_MethodBody(p):
 #19.8.4 Productions from §8.5: Static Initializers
 
 def p_StaticInitializer(p):
-    '''StaticInitializer : STATIC Block'''
+    '''StaticInitializer : static Block'''
 
 #19.8.5 Productions from §8.6: Constructor Declarations
 def p_ConstructorDeclaration(p):
@@ -304,22 +304,22 @@ def p_ConstructorBody(p):
                        | '{' ExplicitConstructorInvocation BlockStatements '}' '''
 
 def p_ExplicitConstructorInvocation(p):
-    '''ExplicitConstructorInvocation : THIS '(' ')' ';'
-                                    | THIS '(' ArgumentList ')' ';'
-                                    | SUPER '('  ')' ';' 
-                                     | SUPER '(' ArgumentList ')' ';' '''
+    '''ExplicitConstructorInvocation : this '(' ')' ';'
+                                    | this '(' ArgumentList ')' ';'
+                                    | super '('  ')' ';' 
+                                     | super '(' ArgumentList ')' ';' '''
 
 #19.9 Productions from §9: Interfaces
 #19.9.1 Productions from §9.1: Interface Declarations
 
 def p_InterfaceDeclaration(p):
-    '''InterfaceDeclaration :  INTERFACE Identifier  InterfaceBody 
-                             |  INTERFACE Identifier ExtendsInterfaces InterfaceBody
-                             | Modifiers INTERFACE Identifier  InterfaceBody
-                             | Modifiers INTERFACE Identifier ExtendsInterfaces InterfaceBody'''
+    '''InterfaceDeclaration :  interface Identifier  InterfaceBody 
+                             |  interface Identifier ExtendsInterfaces InterfaceBody
+                             | Modifiers interface Identifier  InterfaceBody
+                             | Modifiers interface Identifier ExtendsInterfaces InterfaceBody'''
 
 def p_ExtendsInterfaces(p):
-    '''ExtendsInterfaces : EXTENDS InterfaceType
+    '''ExtendsInterfaces : extends InterfaceType
                          | ExtendsInterfaces ',' InterfaceType'''
 
 def p_InterfaceBody(p):
@@ -343,9 +343,9 @@ def p_AbstractMethodDeclaration(p):
 #19.10 Productions from §10: Arrays
 def p_ArrayInitializer(p):
     '''ArrayInitializer : '{'   '}' 
-                        | '{'  COMMA '}' 
+                        | '{'  comma '}' 
                         | '{' VariableInitializers  '}' 
-                        | '{' VariableInitializers COMMA '}' '''
+                        | '{' VariableInitializers comma '}' '''
 
 def p_VariableInitializers(p):
     '''VariableInitializer :  VariableInitializer

@@ -1246,8 +1246,8 @@ def p_PrimaryNoNewArray(p):
 						| '(' Expression ')'
 						| ClassInstanceCreationExpression
 						| FieldAccess
-						| Name
 						| ArrayAccess
+						| Name
 						| MethodInvocation
 						| MethodReference'''
 	p[0] = Node('PrimaryNoNewArray', p[1:])
@@ -1323,6 +1323,7 @@ def p_TypeArgumentsOrDiamond(p):
 
 def p_FieldAccess(p):
 	'''FieldAccess : Primary DOT Identifier
+							| Name DOT Identifier
 							| super DOT Identifier
 							| Name DOT super DOT Identifier'''
 	p[0] = Node('FieldAccess', p[1:])
@@ -1444,14 +1445,15 @@ def p_AssignmentExpression(p):
 
 
 def p_Assignment(p):
-	'''Assignment : LeftHandSide AssignmentOperator Expression '''
+	'''Assignment : LeftHandSide AssignmentOperator Expression 
+					| Name AssignmentOperator Expression '''
 	p[0] = Node('Assignment', p[1:])	
 
 
 def p_LeftHandSide(p):
-	'''LeftHandSide : Name
-							| FieldAccess
-							| ArrayAccess'''
+	'''LeftHandSide : FieldAccess
+							| ArrayAccess
+							| Name'''
 	p[0] = Node('LeftHandSide', p[1:])	
 
 
@@ -1579,6 +1581,7 @@ def p_UnaryExpressionNotPlusMinus(p):
 
 def p_PostfixExpression(p):
 	'''PostfixExpression : Primary
+								| Name
 								| PostIncrementExpression
 								| PostDecrementExpression'''
 	p[0] = Node('PostfixExpression', p[1:])
