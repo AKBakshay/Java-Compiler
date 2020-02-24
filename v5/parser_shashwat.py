@@ -140,36 +140,45 @@ def p_CompilationUnit(p):
                        | ImportDeclarations
                        | TypeDeclarations
                        | empty '''
+    p[0] = Node('CompilationUnit', p[1:])
 
 def p_ImportDeclarations(p):
     '''ImportDeclarations : ImportDeclaration
                           | ImportDeclarations ImportDeclaration'''
+    p[0] = Node('ImportDeclaration', p[1:])
 
 def p_TypeDeclarations(p):
     '''TypeDeclarations : TypeDeclaration
                         | TypeDeclarations TypeDeclaration'''
+    p[0] = Node('TypeDeclarations', p[1:])
 
 def p_PackageDeclaration(p):
-    '''PackageDeclaration : PACKAGE Name ';' '''
-    
+    '''PackageDeclaration : package Name ';' '''
+    p[0] = Node('PackageDeclaration', p[1:])
+
 def p_ImportDeclaration(p):
     '''ImportDeclaration : SingleTypeImportDeclaration
                          | TypeImportOnDemandDeclaration'''
+    p[0] = Node('ImportDeclaration', p[1:])
 
 def p_SingleTypeImportDeclaration(p):
     '''SingleTypeImportDeclaration : import Name ';' '''
-    
+    p[0] = Node('SingleTypeImportDeclaration', p[1:])
+
 def p_TypeImportOnDemandDeclaration(p):
     '''TypeImportOnDemandDeclaration : import Name '.' '*' ';' '''
-    
+    p[0] = Node('TypeImportOnDemandDeclaration', p[1:])
+
 def p_TypeDeclaration(p):
     '''TypeDeclaration : ClassDeclaration
                        | InterfaceDeclaration
                        | ';' '''
-    
+    p[0] = Node('TypeDeclaration', p[1:])
+
 def p_Modifiers(p):
     '''Modifiers : Modifier
                  | Modifiers Modifier'''
+    p[0] = Node('Modifiers', p[1:])
 
 def p_Modifier(p):
     '''Modifier : public
@@ -182,7 +191,7 @@ def p_Modifier(p):
                 | synchronized 
                 | transient 
                 | volatile'''
-
+    p[0] = Node('Modifier', p[1:])
 
 
 def p_ClassDeclaration(p):
@@ -194,97 +203,119 @@ def p_ClassDeclaration(p):
                         | class Identifier Interfaces ClassBody
                         | class Identifier Super ClassBody
                         | class Identifier ClassBody '''
+    p[0] = Node('ClassDeclaration', p[1:])
 
 def p_Super(p):
     '''Super : extends ClassType'''
+    p[0] = Node('Super', p[1:])
 
 def p_Interfaces(p):
     '''Interfaces : implements InterfaceTypeList'''
+    p[0] = Node('Interfaces', p[1:])
 
 def p_InterfaceTypeList(p):
     '''InterfaceTypeList : InterfaceType
                          | InterfaceTypeList ',' InterfaceType'''
+    p[0] = Node('InterfaceTypeList', p[1:])
 
 def p_ClassBody(p):
     '''ClassBody : '{' ClassBodyDeclarations '}' 
                  | '{' '}' '''
+    p[0] = Node('ClassBody', p[1:])
 
 def p_ClassBodyDeclarations(p):
     '''ClassBodyDeclarations : ClassBodyDeclaration
                              | ClassBodyDeclarations ClassBodyDeclaration'''
+    p[0] = Node('ClassBodyDeclarations', p[1:])
 
 def p_ClassBodyDeclaration(p):
     '''ClassBodyDeclaration : ClassMemberDeclaration
                             | StaticInitializer
                             | ConstructorDeclaration'''
+    p[0] = Node('ClassBodyDeclaration', p[1:])
 
 def p_ClassMemberDeclaration(p):
     '''ClassMemberDeclaration : FieldDeclaration
                               | MethodDeclaration'''
+    p[0] = Node('ClassMemberDeclaration', p[1:])
 
     
 def p_FieldDeclaration(p):
     '''FieldDeclaration : Modifiers Type VariableDeclarators ';'
                         | Type VariableDeclarators ';' '''
+    p[0] = Node('FieldDeclaration', p[1:])
 
 def p_VariableDeclarators(p):
     '''VariableDeclarators : VariableDeclarator
                            | VariableDeclarators ',' VariableDeclarator'''
+    p[0] = Node('VariableDeclarators', p[1:])
 
 def p_VariableDeclarator(p):
     '''VariableDeclarator : VariableDeclaratorId
                           | VariableDeclaratorId '=' VariableInitializer'''
+    p[0] = Node('VariableDeclarator', p[1:])
 
 def p_VariableDeclaratorId(p):
     '''VariableDeclaratorId : Identifier
                             | VariableDeclaratorId '[' ']' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_VariableInitializer(p):
     '''VariableInitializer : Expression
                            | ArrayInitializer'''
+    p[0] = Node('QualifiedName', p[1:])
 
 #9.8.3 Productions from §8.4: Method Declarations
 
 def p_MethodDeclaration(p):
     '''MethodDeclaration : MethodHeader MethodBody'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_MethodHeader(p):
     '''MethodHeader : Type MethodDeclarator
                     | Type MethodDeclarator Throws
                     | Modifiers Type MethodDeclarator 
                     | Modifiers Type MethodDeclarator Throws
-                    | VOID MethodDeclarator 
-                    | VOID MethodDeclarator Throws
-                    | Modifiers VOID MethodDeclarator
-                    | Modifiers VOID MethodDeclarator Throws'''
+                    | void MethodDeclarator 
+                    | void MethodDeclarator Throws
+                    | Modifiers void MethodDeclarator
+                    | Modifiers void MethodDeclarator Throws'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_MethodDeclarator(p):
     '''MethodDeclarator : Identifier '(' ')'
                         | Identifier '(' FormalParameterList ')'
                         | MethodDeclarator '[' ']' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_FormalParameterList(p):
     '''FormalParameterList : FormalParameter
                             | FormalParameterList ',' FormalParameter'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_FormalParameter(p):
     '''FormalParameter : Type VariableDeclaratorId'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_Throws(p):
     '''Throws : throws ClassTypeList'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_ClassTypeList(p):
     '''ClassTypeList : ClassType
                      | ClassTypeList ',' ClassType'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_MethodBody(p):
     '''MethodBody : Block 
                    | ';' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 #19.8.4 Productions from §8.5: Static Initializers
 
 def p_StaticInitializer(p):
     '''StaticInitializer : static Block'''
+    p[0] = Node('QualifiedName', p[1:])
 
 #19.8.5 Productions from §8.6: Constructor Declarations
 def p_ConstructorDeclaration(p):
@@ -292,22 +323,26 @@ def p_ConstructorDeclaration(p):
                                 |  ConstructorDeclarator Throws ConstructorBody
                                 | Modifiers ConstructorDeclarator  ConstructorBody
                                 | Modifiers ConstructorDeclarator Throws ConstructorBody'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_ConstructorDeclarator(p):
     '''ConstructorDeclarator : SimpleName '(' ')' 
                              | SimpleName '(' FormalParameterList ')' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_ConstructorBody(p):
     '''ConstructorBody : '{'  '}' 
                        | '{'  BlockStatements '}'
                        | '{' ExplicitConstructorInvocation  '}'
                        | '{' ExplicitConstructorInvocation BlockStatements '}' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_ExplicitConstructorInvocation(p):
     '''ExplicitConstructorInvocation : this '(' ')' ';'
                                     | this '(' ArgumentList ')' ';'
                                     | super '('  ')' ';' 
                                      | super '(' ArgumentList ')' ';' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 #19.9 Productions from §9: Interfaces
 #19.9.1 Productions from §9.1: Interface Declarations
@@ -317,28 +352,35 @@ def p_InterfaceDeclaration(p):
                              |  interface Identifier ExtendsInterfaces InterfaceBody
                              | Modifiers interface Identifier  InterfaceBody
                              | Modifiers interface Identifier ExtendsInterfaces InterfaceBody'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_ExtendsInterfaces(p):
     '''ExtendsInterfaces : extends InterfaceType
                          | ExtendsInterfaces ',' InterfaceType'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_InterfaceBody(p):
     '''InterfaceBody : '{'  '}' 
                     | '{' InterfaceMemberDeclarations '}' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_InterfaceMemberDeclarations(p):
     '''InterfaceMemberDeclarations : InterfaceMemberDeclaration
                                     | InterfaceMemberDeclarations InterfaceMemberDeclaration'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_InterfaceMemberDeclaration(p):
     '''InterfaceMemberDeclaration : ConstantDeclaration
                                   | AbstractMethodDeclaration'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_ConstantDeclaration(p):
     '''ConstantDeclaration : FieldDeclaration'''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_AbstractMethodDeclaration(p):
     '''AbstractMethodDeclaration : MethodHeader ';' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 #19.10 Productions from §10: Arrays
 def p_ArrayInitializer(p):
@@ -346,10 +388,12 @@ def p_ArrayInitializer(p):
                         | '{'  comma '}' 
                         | '{' VariableInitializers  '}' 
                         | '{' VariableInitializers comma '}' '''
+    p[0] = Node('QualifiedName', p[1:])
 
 def p_VariableInitializers(p):
     '''VariableInitializer :  VariableInitializer
                          |  VariableInitializers ',' VariableInitializer'''
+    p[0] = Node('QualifiedName', p[1:])
 
 
 
