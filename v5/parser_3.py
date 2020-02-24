@@ -215,7 +215,6 @@ def p_FloatingPointType(p):
 
 def p_ReferenceType(p):
 	'''ReferenceType : ClassOrInterfaceType 
-						| TypeVariable 
 						| ArrayType'''
 	p[0] = Node('ReferenceType', p[1:])
 
@@ -236,17 +235,11 @@ def p_ClassOrInterfaceType(p):
 	p[0] = Node('ClassOrInterfaceType', p[1:])
 
 
-def p_TypeVariable(p):
-	'''TypeVariable : Annotations Identifier
-						| Identifier'''
-	p[0] = Node('TypeVariable', p[1:])
-
 
 def p_ArrayType(p):
 	'''
 	ArrayType : PrimitiveType Dims 
 			| ClassOrInterfaceType Dims
-			| TypeVariable Dims
 	'''
 	p[0] = Node('ArrayType', p[1:])
 
@@ -271,8 +264,7 @@ def p_TypeParameter(p):
 
 
 def p_TypeBound(p):
-	'''TypeBound : extends TypeVariable
-							| extends ClassOrInterfaceType AdditionalBounds
+	'''TypeBound : extends ClassOrInterfaceType AdditionalBounds
 							| extends ClassOrInterfaceType 
 			'''
 	p[0] = Node('TypeBound', p[1:])
@@ -587,7 +579,6 @@ def p_ExceptionTypeList(p):
 
 def p_ExceptionType(p):
 	'''ExceptionType : ClassOrInterfaceType
-								| TypeVariable
 			'''
 	p[0] = Node('ExceptionType', p[1:])
 
