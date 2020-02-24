@@ -1246,6 +1246,7 @@ def p_PrimaryNoNewArray(p):
 						| '(' Expression ')'
 						| ClassInstanceCreationExpression
 						| FieldAccess
+						| Name
 						| ArrayAccess
 						| MethodInvocation
 						| MethodReference'''
@@ -1328,8 +1329,7 @@ def p_FieldAccess(p):
 
 
 def p_ArrayAccess(p):
-	'''ArrayAccess : Name Expression 
-							| Name 
+	'''ArrayAccess : Name Expression  
 							| PrimaryNoNewArray Expression 
 							| PrimaryNoNewArray 
 			'''
@@ -1569,7 +1569,8 @@ def p_PreDecrementExpression(p):
 
 
 def p_UnaryExpressionNotPlusMinus(p):
-	'''UnaryExpressionNotPlusMinus : PostfixExpression
+	'''UnaryExpressionNotPlusMinus : Name
+										| PostfixExpression
 										| '~' UnaryExpression
 										| '!' UnaryExpression
 										| CastExpression'''
@@ -1578,19 +1579,20 @@ def p_UnaryExpressionNotPlusMinus(p):
 
 def p_PostfixExpression(p):
 	'''PostfixExpression : Primary
-								| Name
 								| PostIncrementExpression
 								| PostDecrementExpression'''
 	p[0] = Node('PostfixExpression', p[1:])
 
 
 def p_PostIncrementExpression(p):
-	'''PostIncrementExpression : PostfixExpression PLUSPLUS'''
+	'''PostIncrementExpression : PostfixExpression PLUSPLUS
+								| Name PLUSPLUS'''
 	p[0] = Node('PostIncrementExpression', p[1:])
 
 
 def p_PostDecrementExpression(p):
-	'''PostDecrementExpression : PostfixExpression MINUSMINUS'''
+	'''PostDecrementExpression : PostfixExpression MINUSMINUS
+								| Name MINUSMINUS'''
 	p[0] = Node('PostDecrementExpression', p[1:])
 
 
