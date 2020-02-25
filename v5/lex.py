@@ -20,7 +20,7 @@ tokens=[
 		'DOUBLECOLON',
 		'OR', 'AND', 'EQ', 'NEQ', 'GTEQ', 'LTEQ', 'LSHIFT', 'RSHIFT', 'RRSHIFT', 'TIMES_EQUAL', 'DIVIDE_EQUAL', 'REMAINDER_EQUAL',
 		'PLUS_EQUAL', 'MINUS_EQUAL', 'LSHIFT_EQUAL', 'RSHIFT_EQUAL', 'RRSHIFT_EQUAL', 'AND_EQUAL', 'XOR_EQUAL', 'OR_EQUAL',
-		'PLUSPLUS', 'MINUSMINUS', 'ELLIPSIS', 'DOT'
+		'PLUSPLUS', 'MINUSMINUS', 'ELLIPSIS'
 
 	] + [x for x in keyset]
 
@@ -57,7 +57,7 @@ t_PLUSPLUS = r'\+\+'
 t_MINUSMINUS = r'\-\-'
 
 t_ELLIPSIS = r'\.\.\.'
-t_DOT= '.'
+
 
 t_ignore = ' \f\t'
 

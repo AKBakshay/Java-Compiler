@@ -1,4 +1,5 @@
 from lex import tokens
+import lex
 import ply.yacc as yacc 
 import argparse
 
@@ -385,13 +386,13 @@ def p_AbstractMethodDeclaration(p):
 #19.10 Productions from §10: Arrays
 def p_ArrayInitializer(p):
     '''ArrayInitializer : '{'   '}' 
-                        | '{'  comma '}' 
+                        | '{'  ',' '}' 
                         | '{' VariableInitializers  '}' 
-                        | '{' VariableInitializers comma '}' '''
+                        | '{' VariableInitializers ',' '}' '''
     p[0] = Node('QualifiedName', p[1:])
 
 def p_VariableInitializers(p):
-    '''VariableInitializer :  VariableInitializer
+    '''VariableInitializers :  VariableInitializer
                          |  VariableInitializers ',' VariableInitializer'''
     p[0] = Node('QualifiedName', p[1:])
 
@@ -674,7 +675,7 @@ def p_PrimaryNoNewArray(p):
 
 def p_ClassInstanceCreationExpression(p):
     '''ClassInstanceCreationExpression : new ClassType '('  ')' 
-                                       : new ClassType '(' ArgumentList ')' '''
+                                       | new ClassType '(' ArgumentList ')' '''
 
 def p_ArgumentList(p):
     '''ArgumentList : Expression
@@ -839,3 +840,73 @@ def p_Expression(p):
 
 def p_ConstantExpression(p):
     '''ConstantExpression : Expression'''
+
+
+def p_empty(p):
+    '''empty : '''
+    pass
+    # p[0]=None
+
+def p_error(p):
+    print('ERROR')
+    sys.exit()
+
+
+
+# making the parser 
+parser = yacc.yacc()
+
+# parsing
+result_output = parser.parse(newdata, lexer=lex.lexer, debug= True)
+
+
+
+# number nodes to remove duplicates
+count = 1
+def number_nodes(node):
+    global count
+    node.num = count
+    count += 1
+    for c in node.children:
+        if isinstance(c, Node):
+            number_nodes(c)
+    c_list = []
+    for x in node.children:
+        if isinstance(x, Node):
+            c_list += [x]
+        else:
+            c_list += [(x, count)]
+            count += 1
+    node.children = c_list
+
+
+
+
+# create dot script from node information         
+def create_dot_script(node):
+    def make_nodes(node):
+        y = str(node.num) + f' [label="{node.name}"]\n'
+        for c in node.children:
+            if isinstance(c, Node):
+                y += f'{node.num} -- {c.num}\n'
+                y += make_nodes(c)
+            else:
+                if '"' not in c[0]:
+                    y += str(c[1]) + f' [label="{c[0]}"]\n'
+                else:
+                    y += str(c[1]) + f' [label={c[0]}]\n'    #handling string
+                y += f'{node.num} -- {c[1]}\n'
+        return y
+    sc = 'strict graph G {\n'
+    sc += make_nodes(node)
+    sc += '}'
+    return sc
+
+
+# create dot script
+# prune_node(result)
+number_nodes(result_output) #number nodes to remove duplicates
+with open(args.out, 'w') as f:
+    f.write(create_dot_script(result_output))
+
+
