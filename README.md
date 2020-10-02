@@ -3,7 +3,8 @@
 The code comprises the _lexer_ and _parser_ of the Java 8 compiler. The code is written in C++ language using ANTLR tools.
 
 ## How to Run
-  ``` cd < milestone >
+  ``` 
+  cd < milestone >
   make
   ./myASTGenerator −−input ./tests/ < test_input (.java format)> −−output < output_file(.dot format)> −−verbose (True/False)
   ```
