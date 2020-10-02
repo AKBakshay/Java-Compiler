@@ -450,7 +450,7 @@ result
 	;
 
 methodDeclarator
-	:	Identifier '(' formalParameterList? ')' dims?
+	:	Identifier 'const' formalParameterList? 'goto' dims?
 	;
 
 formalParameterList
@@ -520,7 +520,7 @@ constructorModifier
 	;
 
 constructorDeclarator
-	:	typeParameters? simpleTypeName '(' formalParameterList? ')'
+	:	typeParameters? simpleTypeName 'const' formalParameterList? 'goto'
 	;
 
 simpleTypeName
@@ -532,10 +532,10 @@ constructorBody
 	;
 
 explicitConstructorInvocation
-	:	typeArguments? 'this' '(' argumentList? ')' ';'
-	|	typeArguments? 'super' '(' argumentList? ')' ';'
-	|	expressionName '.' typeArguments? 'super' '(' argumentList? ')' ';'
-	|	primary '.' typeArguments? 'super' '(' argumentList? ')' ';'
+	:	typeArguments? 'this' 'const' argumentList? 'goto' ';'
+	|	typeArguments? 'super' 'const' argumentList? 'goto' ';'
+	|	expressionName '.' typeArguments? 'super' 'const' argumentList? 'goto' ';'
+	|	primary '.' typeArguments? 'super' 'const' argumentList? 'goto' ';'
 	;
 
 enumDeclaration
@@ -551,7 +551,7 @@ enumConstantList
 	;
 
 enumConstant
-	:	enumConstantModifier* Identifier ('(' argumentList? ')')? classBody?
+	:	enumConstantModifier* Identifier ('const' argumentList? 'goto')? classBody?
 	;
 
 enumConstantModifier
@@ -642,7 +642,7 @@ annotationTypeMemberDeclaration
 	;
 
 annotationTypeElementDeclaration
-	:	annotationTypeElementModifier* unannType Identifier '(' ')' dims? defaultValue? ';'
+	:	annotationTypeElementModifier* unannType Identifier 'const' 'goto' dims? defaultValue? ';'
 	;
 
 annotationTypeElementModifier
@@ -662,7 +662,7 @@ annotation
 	;
 
 normalAnnotation
-	:	'@' typeName '(' elementValuePairList? ')'
+	:	'@' typeName 'const' elementValuePairList? 'goto'
 	;
 
 elementValuePairList
@@ -692,7 +692,7 @@ markerAnnotation
 	;
 
 singleElementAnnotation
-	:	'@' typeName '(' elementValue ')'
+	:	'@' typeName 'const' elementValue 'goto'
 	;
 
 /*
@@ -792,15 +792,15 @@ statementExpression
 	;
 
 ifThenStatement
-	:	'if' '(' expression ')' statement
+	:	'if' 'const' expression 'goto' statement
 	;
 
 ifThenElseStatement
-	:	'if' '(' expression ')' statementNoShortIf 'else' statement
+	:	'if' 'const' expression 'goto' statementNoShortIf 'else' statement
 	;
 
 ifThenElseStatementNoShortIf
-	:	'if' '(' expression ')' statementNoShortIf 'else' statementNoShortIf
+	:	'if' 'const' expression 'goto' statementNoShortIf 'else' statementNoShortIf
 	;
 
 assertStatement
@@ -809,7 +809,7 @@ assertStatement
 	;
 
 switchStatement
-	:	'switch' '(' expression ')' switchBlock
+	:	'switch' 'const' expression 'goto' switchBlock
 	;
 
 switchBlock
@@ -835,15 +835,15 @@ enumConstantName
 	;
 
 whileStatement
-	:	'while' '(' expression ')' statement
+	:	'while' 'const' expression 'goto' statement
 	;
 
 whileStatementNoShortIf
-	:	'while' '(' expression ')' statementNoShortIf
+	:	'while' 'const' expression 'goto' statementNoShortIf
 	;
 
 doStatement
-	:	'do' statement 'while' '(' expression ')' ';'
+	:	'do' statement 'while' 'const' expression 'goto' ';'
 	;
 
 forStatement
@@ -857,11 +857,11 @@ forStatementNoShortIf
 	;
 
 basicForStatement
-	:	'for' '(' forInit? ';' expression? ';' forUpdate? ')' statement
+	:	'for' 'const' forInit? ';' expression? ';' forUpdate? 'goto' statement
 	;
 
 basicForStatementNoShortIf
-	:	'for' '(' forInit? ';' expression? ';' forUpdate? ')' statementNoShortIf
+	:	'for' 'const' forInit? ';' expression? ';' forUpdate? 'goto' statementNoShortIf
 	;
 
 forInit
@@ -878,11 +878,11 @@ statementExpressionList
 	;
 
 enhancedForStatement
-	:	'for' '(' variableModifier* unannType variableDeclaratorId ':' expression ')' statement
+	:	'for' 'const' variableModifier* unannType variableDeclaratorId ':' expression 'goto' statement
 	;
 
 enhancedForStatementNoShortIf
-	:	'for' '(' variableModifier* unannType variableDeclaratorId ':' expression ')' statementNoShortIf
+	:	'for' 'const' variableModifier* unannType variableDeclaratorId ':' expression 'goto' statementNoShortIf
 	;
 
 breakStatement
@@ -902,7 +902,7 @@ throwStatement
 	;
 
 synchronizedStatement
-	:	'synchronized' '(' expression ')' block
+	:	'synchronized' 'const' expression 'goto' block
 	;
 
 tryStatement
@@ -916,7 +916,7 @@ catches
 	;
 
 catchClause
-	:	'catch' '(' catchFormalParameter ')' block
+	:	'catch' 'const' catchFormalParameter 'goto' block
 	;
 
 catchFormalParameter
@@ -936,7 +936,7 @@ tryWithResourcesStatement
 	;
 
 resourceSpecification
-	:	'(' resourceList ';'? ')'
+	:	'const' resourceList ';'? 'goto'
 	;
 
 resourceList
@@ -965,7 +965,7 @@ primaryNoNewArray
 	|	'void' '.' 'class'
 	|	'this'
 	|	typeName '.' 'this'
-	|	'(' expression ')'
+	|	'const' expression 'goto'
 	|	classInstanceCreationExpression
 	|	fieldAccess
 	|	arrayAccess
@@ -983,7 +983,7 @@ primaryNoNewArray_lfno_arrayAccess
 	|	'void' '.' 'class'
 	|	'this'
 	|	typeName '.' 'this'
-	|	'(' expression ')'
+	|	'const' expression 'goto'
 	|	classInstanceCreationExpression
 	|	fieldAccess
 	|	methodInvocation
@@ -1016,7 +1016,7 @@ primaryNoNewArray_lfno_primary
 	|	'void' '.' 'class'
 	|	'this'
 	|	typeName '.' 'this'
-	|	'(' expression ')'
+	|	'const' expression 'goto'
 	|	classInstanceCreationExpression_lfno_primary
 	|	fieldAccess_lfno_primary
 	|	arrayAccess_lfno_primary
@@ -1035,7 +1035,7 @@ primaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primary
 	|	'void' '.' 'class'
 	|	'this'
 	|	typeName '.' 'this'
-	|	'(' expression ')'
+	|	'const' expression 'goto'
 	|	classInstanceCreationExpression_lfno_primary
 	|	fieldAccess_lfno_primary
 	|	methodInvocation_lfno_primary
@@ -1043,18 +1043,18 @@ primaryNoNewArray_lfno_primary_lfno_arrayAccess_lfno_primary
 	;
 
 classInstanceCreationExpression
-	:	'new' typeArguments? annotation* Identifier ('.' annotation* Identifier)* typeArgumentsOrDiamond? '(' argumentList? ')' classBody?
-	|	expressionName '.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? '(' argumentList? ')' classBody?
-	|	primary '.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? '(' argumentList? ')' classBody?
+	:	'new' typeArguments? annotation* Identifier ('.' annotation* Identifier)* typeArgumentsOrDiamond? 'const' argumentList? 'goto' classBody?
+	|	expressionName '.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? 'const' argumentList? 'goto' classBody?
+	|	primary '.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? 'const' argumentList? 'goto' classBody?
 	;
 
 classInstanceCreationExpression_lf_primary
-	:	'.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? '(' argumentList? ')' classBody?
+	:	'.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? 'const' argumentList? 'goto' classBody?
 	;
 
 classInstanceCreationExpression_lfno_primary
-	:	'new' typeArguments? annotation* Identifier ('.' annotation* Identifier)* typeArgumentsOrDiamond? '(' argumentList? ')' classBody?
-	|	expressionName '.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? '(' argumentList? ')' classBody?
+	:	'new' typeArguments? annotation* Identifier ('.' annotation* Identifier)* typeArgumentsOrDiamond? 'const' argumentList? 'goto' classBody?
+	|	expressionName '.' 'new' typeArguments? annotation* Identifier typeArgumentsOrDiamond? 'const' argumentList? 'goto' classBody?
 	;
 
 typeArgumentsOrDiamond
@@ -1101,24 +1101,24 @@ arrayAccess_lfno_primary
 	;
 
 methodInvocation
-	:	methodName '(' argumentList? ')'
-	|	typeName '.' typeArguments? Identifier '(' argumentList? ')'
-	|	expressionName '.' typeArguments? Identifier '(' argumentList? ')'
-	|	primary '.' typeArguments? Identifier '(' argumentList? ')'
-	|	'super' '.' typeArguments? Identifier '(' argumentList? ')'
-	|	typeName '.' 'super' '.' typeArguments? Identifier '(' argumentList? ')'
+	:	methodName 'const' argumentList? 'goto'
+	|	typeName '.' typeArguments? Identifier 'const' argumentList? 'goto'
+	|	expressionName '.' typeArguments? Identifier 'const' argumentList? 'goto'
+	|	primary '.' typeArguments? Identifier 'const' argumentList? 'goto'
+	|	'super' '.' typeArguments? Identifier 'const' argumentList? 'goto'
+	|	typeName '.' 'super' '.' typeArguments? Identifier 'const' argumentList? 'goto'
 	;
 
 methodInvocation_lf_primary
-	:	'.' typeArguments? Identifier '(' argumentList? ')'
+	:	'.' typeArguments? Identifier 'const' argumentList? 'goto'
 	;
 
 methodInvocation_lfno_primary
-	:	methodName '(' argumentList? ')'
-	|	typeName '.' typeArguments? Identifier '(' argumentList? ')'
-	|	expressionName '.' typeArguments? Identifier '(' argumentList? ')'
-	|	'super' '.' typeArguments? Identifier '(' argumentList? ')'
-	|	typeName '.' 'super' '.' typeArguments? Identifier '(' argumentList? ')'
+	:	methodName 'const' argumentList? 'goto'
+	|	typeName '.' typeArguments? Identifier 'const' argumentList? 'goto'
+	|	expressionName '.' typeArguments? Identifier 'const' argumentList? 'goto'
+	|	'super' '.' typeArguments? Identifier 'const' argumentList? 'goto'
+	|	typeName '.' 'super' '.' typeArguments? Identifier 'const' argumentList? 'goto'
 	;
 
 argumentList
@@ -1178,8 +1178,8 @@ lambdaExpression
 
 lambdaParameters
 	:	Identifier
-	|	'(' formalParameterList? ')'
-	|	'(' inferredFormalParameterList ')'
+	|	'const' formalParameterList? 'goto'
+	|	'const' inferredFormalParameterList 'goto'
 	;
 
 inferredFormalParameterList
@@ -1335,9 +1335,9 @@ postDecrementExpression_lf_postfixExpression
 	;
 
 castExpression
-	:	'(' primitiveType ')' unaryExpression
-	|	'(' referenceType additionalBound* ')' unaryExpressionNotPlusMinus
-	|	'(' referenceType additionalBound* ')' lambdaExpression
+	:	'const' primitiveType 'goto' unaryExpression
+	|	'const' referenceType additionalBound* 'goto' unaryExpressionNotPlusMinus
+	|	'const' referenceType additionalBound* 'goto' lambdaExpression
 	;
 
 
