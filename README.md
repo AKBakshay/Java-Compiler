@@ -5,8 +5,8 @@ The code comprises the _lexer_ and _parser_ of the Java 8 compiler. The code is 
 ## How to Run
   ``` cd < milestone >
   make
-  ./myASTGenerator −−input ./tests/ < test_input (.java format)> −−output < output_file(.dot format)> −−verbose (True/False)```
-
+  ./myASTGenerator −−input ./tests/ < test_input (.java format)> −−output < output_file(.dot format)> −−verbose (True/False)
+  ```
 
 ## Description
 
