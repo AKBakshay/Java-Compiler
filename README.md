@@ -2,6 +2,9 @@
 ## Introduction
 The code comprises the _lexer_ and _parser_ of the Java 8 compiler. The code is written in C++ language using ANTLR tools.
 
+Input: java code
+output: parsed output (ANTLR output format)
+
 ## How to Run
   ``` 
   cd < milestone >
